@@ -5,7 +5,7 @@ function App() {
     {
       title: 'Car Insurance',
       amount: 298,
-      date: new Date().toISOString()
+      date: new Date()
     }
   ]
   return (
