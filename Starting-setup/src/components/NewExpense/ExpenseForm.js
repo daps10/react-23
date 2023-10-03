@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import './ExpenseForm.css';
 
@@ -61,8 +61,21 @@ const ExpenseForm = () => {
     }
   }
 
+  // handler to submit event
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const expenseData = {
+      title,
+      amount,
+      date: new Date(date)
+    };
+
+    console.log(expenseData);
+  }
+
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
           <label>Title</label>
