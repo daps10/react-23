@@ -15,7 +15,6 @@ const Expenses = (props) => {
     <div>
       <Card className="expenses">
         <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler}/>
-        <p>Data for years {filterInfoText} is hidden.</p>
         {
           props.expenses.map((expense) => <ExpenseItem title={expense.title} 
           date={expense.date}
