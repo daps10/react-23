@@ -4,6 +4,7 @@ import NewExpense from './components/NewExpense/NewExpense';
 
 const DUMMY_EXPENSES = [
   {
+    id:'abs',
     title: 'Car Insurance',
     amount: 298,
     date: new Date()

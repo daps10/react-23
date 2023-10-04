@@ -11,15 +11,77 @@ const Expenses = (props) => {
     setFilteredYear(selectedYear);
   }
 
+  // filtered expenses
+  const filteredExpenses = props.expenses.filter(expense => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+
+  // ternary alternative
+  let expensesContent = <p>No Expenses found.</p>
+
+  if(filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map((expense) => (
+      <ExpenseItem 
+        key= {expense.id}
+        title= {expense.title}
+        amount= { expense.amount }
+        date= { expense.date }
+      />
+    ));
+  }
+
   return (
     <div>
+      
       <Card className="expenses">
-        <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler}/>
+        <ExpensesFilter 
+          selected={filteredYear} 
+          onChangeFilter={filterChangeHandler}
+        />
+
+        {/* {
+          filteredExpenses.length == 0 ? 
+          (<p>No expenses found.</p>) :
+          (
+            filteredExpenses.map((expense) => 
+              <ExpenseItem 
+                key= { expense.id }
+                title= {expense.title}
+                amount= { expense.amount }
+                date= { expense.date }
+              />
+            )
+          )
+        } */}
+
+        {/* ternary alternative 
+
+        { !filteredExpenses.length &&  (<p>No expenses found.</p>) }
         {
-          props.expenses.map((expense) => <ExpenseItem title={expense.title} 
+          (
+            filteredExpenses.map((expense) => 
+              <ExpenseItem 
+                key= { expense.id }
+                title= {expense.title}
+                amount= { expense.amount }
+                date= { expense.date }
+              />
+            )
+          )
+        }
+        */}
+
+        { expensesContent }
+
+       
+        {/* {
+          filteredExpenses.map((expense) => 
+          <ExpenseItem 
+          key= {expense.id}
+          title={expense.title} 
           date={expense.date}
           amount={expense.amount} />)
-        };
+        }; */}
 
           
         {/* 
