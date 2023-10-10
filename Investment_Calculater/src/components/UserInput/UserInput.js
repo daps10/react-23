@@ -7,13 +7,14 @@ const initialUserInputs = {
   'duration': 10
 }
 
-const UserInput = () => {
+const UserInput = (props) => {
   const [userInputs, setUserInputs] = useState(initialUserInputs);
 
   // submit handler
   const submitHandler = (e) => {
     e.preventDefault();
     console.log('SUBMIT');
+    props.onCalculate(userInputs);
   };
 
   // reset handler
