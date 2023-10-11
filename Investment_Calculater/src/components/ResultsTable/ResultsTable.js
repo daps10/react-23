@@ -1,5 +1,5 @@
 import React from "react";
-
+import classes from './ResultsTable.module.css';
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
@@ -13,7 +13,7 @@ const ResultsTable = (props) => {
     // {/* Todo: Show below table conditionally (only once result data is available) */}
     // {/* Show fallback text if no data is available */}
 
-    <table className="result">
+    <table className={classes.result}>
       <thead>
         <tr>
           <th>Year</th>
