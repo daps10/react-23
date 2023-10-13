@@ -4,7 +4,7 @@ import Button from './Button';
 import classes from './ErrorModel.module.css';
 
 const ErrorModel = props => {
-  return <div className={classes.backdrop}>
+  return <div className={classes.backdrop} onClick={props.onConfirm}>
     <Card classes={classes.modal}>
       <header className={classes.header}>
         <h2>
@@ -17,7 +17,7 @@ const ErrorModel = props => {
         </p>
       </div>
       <footer className={classes.actions}>
-        <Button>Okay</Button>      
+        <Button onClick={props.onConfirm}>Okay</Button>      
       </footer>
     </Card>
   </div>
