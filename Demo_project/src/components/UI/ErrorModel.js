@@ -2,9 +2,16 @@ import React from 'react';
 import Card from './Card';
 import Button from './Button';
 import classes from './ErrorModel.module.css';
+import ReactDOM from 'react-dom';
 
-const ErrorModel = props => {
-  return <div className={classes.backdrop} onClick={props.onConfirm}>
+// backdrop model
+const Backdrop = props => {
+  return <div className={classes.backdrop} onClick={props.onConfirm}/>;
+};
+
+// model overlay
+const ModalOverlay = props => {
+  return (
     <Card classes={classes.modal}>
       <header className={classes.header}>
         <h2>
@@ -20,7 +27,30 @@ const ErrorModel = props => {
         <Button onClick={props.onConfirm}>Okay</Button>      
       </footer>
     </Card>
-  </div>
+  );
+}
+
+const ErrorModel = props => {
+  return (
+    <React.Fragment>
+      {
+        ReactDOM.createPortal(
+          <Backdrop onConfirm={props.onConfirm}/>, 
+          document.getElementById('backdrop-root')
+        )
+      }
+      {
+        ReactDOM.createPortal(
+          <ModalOverlay 
+            title={props.title}
+            message={props.message}
+            onConfirm={props.onConfirm}
+          />,
+          document.getElementById('overlay-root')
+        )
+      }
+    </React.Fragment>
+  )
 };
 
 export default ErrorModel;
