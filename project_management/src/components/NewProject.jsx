@@ -13,12 +13,12 @@ export default function NewProject({onAdd, onCancel}) {
     const enteredTitle = title.current.value;
     const enteredDescription = description.current.value;
     const enteredDueDate = dueDate.current.value;
-
+    
     // validations...
     if(
       enteredTitle.trim() === '' || 
       enteredDescription.trim() === '' ||
-      enteredDueDate.trim() || ''
+      enteredDueDate.trim() === ''
     ) {
       // show error model
       modal.current.open();
