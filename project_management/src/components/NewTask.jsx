@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 export default function NewTask({onAdd}) {
-  const [enteredTask, setEnteredTask] = useState();
+  const [enteredTask, setEnteredTask] = useState('');
 
   // handleCHange
   function handleChange(event){
@@ -10,6 +10,10 @@ export default function NewTask({onAdd}) {
 
   // handle click
   function handleClick() {
+    if(enteredTask.trim() === "") {
+      return;
+    }
+    
     onAdd(enteredTask)
     setEnteredTask('');
   }

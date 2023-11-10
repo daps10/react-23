@@ -13,7 +13,7 @@ export default function Tasks({
         onDelete={onDelete}
       />
 
-      {tasks.length === 0 && (
+      { tasks.length === 0 && (
         <p className="text-stone-800 my-4">
           This project does not have any tasks yet.
         </p>
@@ -24,7 +24,10 @@ export default function Tasks({
           {tasks.map((task) => (
             <li key={task.id} className="flex justify-between my-4">
               <span>{task.text}</span>
-              <button className="text-stone-700 hover:text-red-500">Clear</button>
+              <button 
+                className="text-stone-700 hover:text-red-500"
+                onClick={() => onDelete(task.id)}  
+              > Clear</button>
             </li>
           ))}
         </ul>
