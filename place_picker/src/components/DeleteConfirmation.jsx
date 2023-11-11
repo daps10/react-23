@@ -1,9 +1,20 @@
-export default function DeleteConfirmation({ onConfirm, onCancel }) {
-  // timer function to confirm automatically
-  setTimeout(() => {
-    onConfirm();
-  }, 3000);
+import { useEffect } from "react";
 
+export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  
+  // cleanup timer with useEffect
+  useEffect(() => {
+    // timer function to confirm automatically
+    console.log('Timer SET');
+    const timerID = setTimeout(() => {
+      onConfirm();
+    }, 3000);
+
+    return () => {
+      console.log('Cleaning up timer');
+      clearTimeout(timerID);
+    }
+  });
 
   return (
     <div id="delete-confirmation">
