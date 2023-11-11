@@ -7,10 +7,16 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import { sortPlacesByDistance } from './loc.js';
 
+// fetched selected places from localstorage only once when the app start
+const storeIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+const storedPlaces = storeIds.map((id) => 
+  AVAILABLE_PLACES.find((place) => place.id === id)
+);
+
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
   const [availablePlaces, setAvailablePlaces] = useState([]);
 
   // useEffect hook
@@ -61,6 +67,15 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
     modal.current.close();
+
+    // deleting data from localstorage
+    const storeIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    localStorage.setItem(
+      'selectedPlaces', 
+      JSON.stringify(
+        storeIds.filter((id) => id !== selectedPlace.current)
+      )
+    );
   }
 
   return (
