@@ -13,9 +13,15 @@ const Login = (props) => {
 
   // useEffect to manage the entered wrong email or password
   useEffect(() =>{
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+    const timer = setTimeout(() => {
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [enteredEmail, enteredPassword])
 
   const emailChangeHandler = (event) => {
