@@ -57,18 +57,21 @@ const Login = (props) => {
     isValid: null
   });
 
-  // useEffect to manage the entered wrong email or password
-  // useEffect(() =>{
-  //   const timer = setTimeout(() => {
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
 
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [enteredEmail, enteredPassword])
+  // useEffect to manage the entered wrong email or password
+  useEffect(() =>{
+    const timer = setTimeout(() => {
+      setFormIsValid(
+        emailIsValid && passwordIsValid
+      );
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [emailIsValid, passwordIsValid])
 
   const emailChangeHandler = (event) => {
     dispatchEmail({
@@ -76,26 +79,20 @@ const Login = (props) => {
       payload: event.target.value
     });
     
-    setFormIsValid(
-      event.target.value.includes('@') && passwordState.isValid
-    );
+    // setFormIsValid(
+    //   event.target.value.includes('@') && passwordState.isValid
+    // );
   };
 
   const passwordChangeHandler = (event) => {
-    // setEnteredPassword(event.target.value);
-    
-    // setFormIsValid(
-    //   emailState.value.includes('@') && event.target.value.trim().length > 6
-    // );
-
     dispatchPassword({
       type: 'USER_INPUT',
       payload: event.target.value
     });
 
-    setFormIsValid(
-      emailState.isValid && event.target.value.trim().length > 6
-    );
+    // setFormIsValid(
+    //   emailState.isValid && event.target.value.trim().length > 6
+    // );
   };
 
   const validateEmailHandler = () => {
