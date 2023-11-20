@@ -13,7 +13,6 @@ export default function QuestionTimer({ timeout, onTimeout }) {
     setInterval(() => {
       setRemainingTime(prevRemainingTime => prevRemainingTime - 100);
     }, 100);
-
   }, []); 
 
   return (
