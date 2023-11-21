@@ -10,7 +10,9 @@ export default function QuestionTimer({ timeout, onTimeout }) {
       timeout
     );
     
-    clearTimeout(timerTimeOut);
+    return () => {
+      clearTimeout(timerTimeOut);
+    }
   }, [timeout, onTimeout]);
 
   // useEffect for remaining time
