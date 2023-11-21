@@ -1,12 +1,11 @@
-import { useState, useCallback,useRef } from 'react';
+import { useState, useCallback } from 'react';
 import QUESTIONS from '../questions';
 import quizCompleteImg from '../assets/quiz-complete.png';
 import QuestionTimer from './QuestionTImer';
+import Answers from './Answers';
 
 export default function Quiz() {
 
-  // shuffleAnswer to useRef
-  const shuffledAnswers = useRef();
 
   const [answerState, setAnswerState] = useState('');
   const [userAnswers, setUserAnswers] = useState([]);
@@ -53,12 +52,6 @@ export default function Quiz() {
     );
   }
 
-  // shuffled answers
-  if(!shuffledAnswers.current) {
-    shuffledAnswers.current = [...QUESTIONS[activeQuestionIndex].answers];
-    shuffledAnswers.current.sort(() => Math.random() - 0.5);
-  }
-
   return (
     <div id='quiz'>
       <div id='question'>
@@ -71,30 +64,15 @@ export default function Quiz() {
         <h2>
           { QUESTIONS[activeQuestionIndex].text }
         </h2>
-        <ul id='answers'>
-          { shuffledAnswers.current.map((answer) => {
-            // check the answer is selected or not
-            let isSelected = userAnswers[userAnswers.length - 1] === answer;
-            
-            // css classes dynamically updated 
-            let cssClasses = '';
-            if(answerState === 'answered' && isSelected) {
-              cssClasses='selected';             
-            } 
-            if((answerState === 'correct' || answerState ==='wrong') && isSelected) {
-              cssClasses= answerState;
-            }
+        
+        <Answers 
+          key={activeQuestionIndex}
+          answers={ QUESTIONS[activeQuestionIndex].answers }
+          selectedAnswer={ userAnswers[userAnswers.length - 1] }
+          answerState={answerState}
+          onSelect={handleSelectAnswer}
+          />
 
-            return <li key={answer} className='answer'>  
-            <button 
-              onClick={() => handleSelectAnswer(answer)}
-              className={cssClasses}
-            > { answer }
-            </button>
-          </li>
-
-          })}
-        </ul>
       </div>
     </div>
   );
