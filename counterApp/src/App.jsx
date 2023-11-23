@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+
+import Counter from './components/Counter/Counter.jsx';
+import Header from './components/Header.jsx';
+import { log } from './log.js';
 
 function App() {
-  const [count, setCount] = useState(0)
+  log('<App /> rendered');
+
+  const [enteredNumber, setEnteredNumber] = useState(0);
+  const [chosenCount, setChosenCount] = useState(0);
+
+  function handleChange(event) {
+    setEnteredNumber(+event.target.value);
+  }
+
+  function handleSetClick() {
+    setChosenCount(enteredNumber);
+    setEnteredNumber(0);
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <main>
+        <section id="configure-counter">
+          <h2>Set Counter</h2>
+          <input type="number" onChange={handleChange} value={enteredNumber} />
+          <button onClick={handleSetClick}>Set</button>
+        </section>
+        <Counter initialCount={chosenCount} />
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
