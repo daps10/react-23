@@ -1,39 +1,28 @@
 import { Component } from 'react';
-import { useState } from 'react';
+
 import User from './User';
-
 import classes from './Users.module.css';
-
-const DUMMY_USERS = [
-  { id: 'u1', name: 'Max' },
-  { id: 'u2', name: 'Manuel' },
-  { id: 'u3', name: 'Julie' },
-];
 
 class Users extends Component {
   constructor() {
     super();
-    
-    // in classbased state and object is not upto u 
-    // it is always fixed state name and initial value black object only.
     this.state = {
-      showUsers: true
+      showUsers: true,
+      more: 'Test',
     };
   }
 
-  // this way to handle method
   toggleUsersHandler() {
-    // this.state.showUsers = false; // we can't do it like this.
+    // this.state.showUsers = false; // NOT!
     this.setState((curState) => {
-      return { showUsers: !curState.showUsers }
-    }) // this is provided by component
+      return { showUsers: !curState.showUsers };
+    });
   }
 
-  // render method to rendering page
   render() {
     const usersList = (
       <ul>
-        {DUMMY_USERS.map((user) => (
+        {this.props.users.map((user) => (
           <User key={user.id} name={user.name} />
         ))}
       </ul>
