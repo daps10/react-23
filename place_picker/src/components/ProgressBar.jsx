@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
 
-export default function ProgressBar({timer}) {
+export default function ProgressBar({ timer }) {
   const [remainingTime, setRemainingTime] = useState(timer);
 
-  // intervally called this function to set remainingTime
   useEffect(() => {
-    const intervalID = setInterval(() => {
-      setRemainingTime(prevTime => prevTime - 10);
+    const interval = setInterval(() => {
+      setRemainingTime((prevTime) => prevTime - 10);
     }, 10);
-    
-    return (() => {
-      clearInterval(intervalID);
-    });
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
-  return <progress value={remainingTime} max={timer}/>
+  return <progress value={remainingTime} max={timer} />;
 }
