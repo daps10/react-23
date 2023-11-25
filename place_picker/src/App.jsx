@@ -1,88 +1,50 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 import Places from './components/Places.jsx';
-import { AVAILABLE_PLACES } from './data.js';
 import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
-import { sortPlacesByDistance } from './loc.js';
-
-// fetched selected places from localstorage only once when the app start
-const storeIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-const storedPlaces = storeIds.map((id) => 
-  AVAILABLE_PLACES.find((place) => place.id === id)
-);
+import AvailablePlaces from './components/AvailablePlaces.jsx';
 
 function App() {
   const selectedPlace = useRef();
-  const [modelIsOpen, setModelIsOpen] = useState(false);
-  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
-  const [availablePlaces, setAvailablePlaces] = useState([]);
 
-  // useEffect hook
-  useEffect(() => {
-    // get current location
-    navigator.geolocation.getCurrentPosition((position) => {
-      const sortedPlaces = sortPlacesByDistance(
-        AVAILABLE_PLACES, 
-        position.coords.latitude, 
-        position.coords.longitude
-      );
-        
-      // set into setAvailable places
-      setAvailablePlaces(sortedPlaces);
-    });
-  }, []);
+  const [userPlaces, setUserPlaces] = useState([]);
 
-  function handleStartRemovePlace(id) {
-    setModelIsOpen(true);
-    selectedPlace.current = id;
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  function handleStartRemovePlace(place) {
+    setModalIsOpen(true);
+    selectedPlace.current = place;
   }
 
   function handleStopRemovePlace() {
-    setModelIsOpen(false);
+    setModalIsOpen(false);
   }
 
-  function handleSelectPlace(id) {
-    setPickedPlaces((prevPickedPlaces) => {
-      if (prevPickedPlaces.some((place) => place.id === id)) {
+  function handleSelectPlace(selectedPlace) {
+    setUserPlaces((prevPickedPlaces) => {
+      if (!prevPickedPlaces) {
+        prevPickedPlaces = [];
+      }
+      if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
         return prevPickedPlaces;
       }
-      const place = AVAILABLE_PLACES.find((place) => place.id === id);
-      return [place, ...prevPickedPlaces];
+      return [selectedPlace, ...prevPickedPlaces];
     });
-
-    // stored ids inside the localStorage
-    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    if(storedIds.indexOf(id) === -1) {
-      localStorage.setItem(
-        'selectedPlaces', 
-        JSON.stringify([id, ...storedIds])
-      );
-    }
   }
 
-  // used useCallback hook
-  const handleRemovePlace = useCallback(function handleRemovePlace() {
-    setPickedPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
+  const handleRemovePlace = useCallback(async function handleRemovePlace() {
+    setUserPlaces((prevPickedPlaces) =>
+      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
     );
-    setModelIsOpen(false);
 
-    // deleting data from localstorage
-    const storeIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    localStorage.setItem(
-      'selectedPlaces', 
-      JSON.stringify(
-        storeIds.filter((id) => id !== selectedPlace.current)
-      )
-    );
+    setModalIsOpen(false);
   }, []);
-  
 
   return (
     <>
-      <Modal open={modelIsOpen} onClose={handleStopRemovePlace}>
+      <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
           onConfirm={handleRemovePlace}
@@ -100,16 +62,12 @@ function App() {
       <main>
         <Places
           title="I'd like to visit ..."
-          fallbackText={'Select the places you would like to visit below.'}
-          places={pickedPlaces}
+          fallbackText="Select the places you would like to visit below."
+          places={userPlaces}
           onSelectPlace={handleStartRemovePlace}
         />
-        <Places
-          title="Available Places"
-          places={availablePlaces}
-          fallbackText='Sorting places by distance...'
-          onSelectPlace={handleSelectPlace}
-        />
+
+        <AvailablePlaces onSelectPlace={handleSelectPlace} />
       </main>
     </>
   );
