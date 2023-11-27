@@ -27,7 +27,8 @@ function useFetch (fetchFn, initialValue) {
   return {
     isFetching,
     fetchedData,
-    error
+    error,
+    setFetchedData
   }
 }
 
