@@ -1,28 +1,25 @@
-import { useEffect, useState } from 'react';
 import Places from './Places.jsx';
 import Error from './Error.jsx';
 import { sortPlacesByDistance } from '../loc.js';
 import { fetchAvailablePlaces } from '../http.js';
 import useFetch from '../hooks/useFetch.js';
 
-// const places = localStorage.getItem('places');
-
 // get users location
-// navigator.geolocation.getCurrentPosition((position) => {
-//   // sorted places with the got places from API,
-//   // with current lat and long
-//   const sortedPlaces = sortPlacesByDistance(
-//     places, 
-//     position.coords.latitude, 
-//     position.coords.longitude
-//   );
-  
-//   // set places in available places state.
-//   setAvailablePlaces(sortedPlaces);
-  
-//   // to indicated that we are fetching data so hide the loading text
-//   setIsFetching(false);
-// });
+async function fetchSortedPlaces() {
+  const places = await fetchAvailablePlaces();
+
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(
+        places, 
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+      resolve(sortedPlaces);
+    })
+  });
+}
 
 export default function AvailablePlaces({ onSelectPlace }) {
   
@@ -30,8 +27,7 @@ export default function AvailablePlaces({ onSelectPlace }) {
     isFetching, 
     error, 
     fetchedData: availablePlaces, 
-    setFetchedData: setAvailablePlaces
-   } = useFetch(fetchAvailablePlaces, []);
+  } = useFetch(fetchSortedPlaces, []);
 
 
   if(error) {
