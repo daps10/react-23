@@ -12,16 +12,15 @@ import useFetch from './hooks/useFetch.js';
 function App() {
   const selectedPlace = useRef();
 
-  const [userPlaces, setUserPlaces] = useState([]);
   const [errorUpdatingPlaces, setErrorUpdatingPlaces] = useState();
-
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState();
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   // custom hook for useFetch 
-  useFetch();
+  const {
+    isFetching, 
+    error, 
+    fetchedData
+  } = useFetch(fetchUserPlaces, []);
 
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
@@ -32,50 +31,50 @@ function App() {
     setModalIsOpen(false);
   }
 
-  async function handleSelectPlace(selectedPlace) {
-    // for this we need to show loader.
-    // await updateUserPlaces([selectedPlace, ...userPlaces]);
+  // async function handleSelectPlace(selectedPlace) {
+  //   // for this we need to show loader.
+  //   // await updateUserPlaces([selectedPlace, ...userPlaces]);
     
-    setUserPlaces((prevPickedPlaces) => {
-      if (!prevPickedPlaces) {
-        prevPickedPlaces = [];
-      }
-      if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
-        return prevPickedPlaces;
-      }
-      return [selectedPlace, ...prevPickedPlaces];
-    });
+  //   setUserPlaces((prevPickedPlaces) => {
+  //     if (!prevPickedPlaces) {
+  //       prevPickedPlaces = [];
+  //     }
+  //     if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
+  //       return prevPickedPlaces;
+  //     }
+  //     return [selectedPlace, ...prevPickedPlaces];
+  //   });
 
-    // called an API to update user places
-    try {
-      // update the state with API
-      await updateUserPlaces([selectedPlace, ...userPlaces]);
-    } catch (error) {
-      // if something went wrong then we update the UI again
-      setUserPlaces(userPlaces);
-      setErrorUpdatingPlaces({
-        message: error.message || 'Failed to update places.',
-      })
-    }
-  }
+  //   // called an API to update user places
+  //   try {
+  //     // update the state with API
+  //     await updateUserPlaces([selectedPlace, ...userPlaces]);
+  //   } catch (error) {
+  //     // if something went wrong then we update the UI again
+  //     setUserPlaces(userPlaces);
+  //     setErrorUpdatingPlaces({
+  //       message: error.message || 'Failed to update places.',
+  //     })
+  //   }
+  // }
 
-  const handleRemovePlace = useCallback(async function handleRemovePlace() {
-    setUserPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
-    );
-    try {
-      await updateUserPlaces(
-        userPlaces.filter((place) => place.id !== selectedPlace.current.id)
-      );
-    } catch (error) {
-      setUserPlaces(userPlaces);
-      setErrorUpdatingPlaces({
-        message: error.message || 'Failed to delete place.'
-      })
-    }
+  // const handleRemovePlace = useCallback(async function handleRemovePlace() {
+  //   setUserPlaces((prevPickedPlaces) =>
+  //     prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
+  //   );
+  //   try {
+  //     await updateUserPlaces(
+  //       userPlaces.filter((place) => place.id !== selectedPlace.current.id)
+  //     );
+  //   } catch (error) {
+  //     setUserPlaces(userPlaces);
+  //     setErrorUpdatingPlaces({
+  //       message: error.message || 'Failed to delete place.'
+  //     })
+  //   }
 
-    setModalIsOpen(false);
-  }, [userPlaces]);
+  //   setModalIsOpen(false);
+  // }, [userPlaces]);
 
   function handleError() {
     setErrorUpdatingPlaces(null);
@@ -94,7 +93,7 @@ function App() {
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
-          onConfirm={handleRemovePlace}
+          // onConfirm={handleRemovePlace}
         />
       </Modal>
 
@@ -113,11 +112,13 @@ function App() {
           fallbackText="Select the places you would like to visit below."
           loadingText= "Fetching your places..."
           isLoading={ isFetching }
-          places={userPlaces}
+          places={fetchedData}
           onSelectPlace={handleStartRemovePlace}
         />)}
 
-        <AvailablePlaces onSelectPlace={handleSelectPlace} />
+        <AvailablePlaces 
+          // onSelectPlace={handleSelectPlace} 
+        />
       </main>
     </>
   );
