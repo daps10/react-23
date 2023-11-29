@@ -16,6 +16,11 @@ export default function Login() {
     e.preventDefault();
 
     console.log('User email :: ', enteredValues);
+
+    setEnteredValues({
+      email: '',
+      password: ''
+    })
   }
 
   function handleInputChange(identifire, value) { 
