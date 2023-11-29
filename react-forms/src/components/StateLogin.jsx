@@ -12,9 +12,14 @@ export default function Login() {
     password: ''
   });
 
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false
+  });
+
   // check email is valid or not
   const emailIsInvalid = 
-    enteredValues.email !== '' && !enteredValues.email.includes('@');
+    didEdit.email && !enteredValues.email.includes('@');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,12 +36,24 @@ export default function Login() {
     setEnteredValues((prevValues) => ({
       ...prevValues, 
       [identifire]: value
+    }));
+
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifire]: false
     }))
   }
 
   // function handleEmailChange(event) {
   //   setEnteredEmail(event.target.value)
   // }
+
+  function handleInputBlur(identifier) {
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: true
+    }))
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -49,6 +66,8 @@ export default function Login() {
             id="email" 
             type="email" 
             name="email" 
+            // it calls whenever input loses focus.
+            onBlur={() => handleInputBlur('email')}  
             onChange={(event) => handleInputChange('email', event.target.value)}
             value={ enteredValues.email }
             />
