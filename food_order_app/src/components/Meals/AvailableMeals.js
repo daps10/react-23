@@ -5,10 +5,12 @@ import MealItem from './MealItem/MealItem';
 
 const AvailableMeals = () => {
   const [meals, setMeals]= useState([]);
+  const [isLoading, setIsLoading]= useState(true);
+  // const []= useState();
   
   // useEffect for fetch API
   useEffect(() => {
-
+    
     const fetchMeals = async() => {
       // firebase URL
       const response= await fetch('https://react-movies-app-6b7ea-default-rtdb.firebaseio.com/meals.json')
@@ -26,12 +28,18 @@ const AvailableMeals = () => {
 
       // setMeals with loadedMeals
       setMeals(loadedMeals);
+      setIsLoading(false);
     }
 
     // load fetchmeals function
     fetchMeals();
   }, [])
 
+  if(isLoading) {
+    return <section className={classes.MealsLoading}>
+      <p>Loading... </p>
+    </section>
+  }
   const mealsList = meals.map(meal => 
       (
         <MealItem 
