@@ -1,5 +1,6 @@
 export default function Signup() {
 
+  // handleSubmit
   function handleSubmit(e) { 
     e.preventDefault();
 
@@ -9,6 +10,9 @@ export default function Signup() {
     const data= Object.fromEntries(formData.entries());
     data.acquisition= acquisitionChannel;
     console.log(data);
+
+    // resetting values wth reset()
+    e.target.reset();
   }
 
   return (

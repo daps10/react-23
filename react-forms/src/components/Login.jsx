@@ -13,6 +13,10 @@ export default function Login() {
 
     console.log('User email :: ', enteredEmail);
     console.log('User email :: ', enteredPassword);
+  
+    // resetting values
+    email.current.value= '';
+    password.current.value= '';
   }
 
   
