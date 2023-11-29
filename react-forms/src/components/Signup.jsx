@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 export default function Signup() {
+
+  // custom validation for password and confirm password 
+  const [passwordsAreNotEqual, setPasswordsAreNotEqual]= useState(false);
 
   // handleSubmit
   function handleSubmit(e) { 
@@ -9,6 +14,12 @@ export default function Signup() {
     const acquisitionChannel = formData.getAll('acquisition');
     const data= Object.fromEntries(formData.entries());
     data.acquisition= acquisitionChannel;
+    
+    if(data.password !== data['confirm-password']) {
+      setPasswordsAreNotEqual(true);
+      return;
+    }
+    
     console.log(data);
 
     // resetting values wth reset()
@@ -26,7 +37,7 @@ export default function Signup() {
           id="email" 
           type="email" 
           name="email" 
-          required
+          required  // built-in validation
         />
       </div>
 
@@ -37,9 +48,9 @@ export default function Signup() {
             id="password" 
             type="password" 
             name="password" 
-            required
-            minLength={6}
-            maxLength={12}
+            required // built-in validation
+            minLength={6} // built-in validation
+            maxLength={12} // built-in validation
           />
         </div>
 
@@ -49,8 +60,11 @@ export default function Signup() {
             id="confirm-password"
             type="password"
             name="confirm-password"
-            required
+            required // built-in validation
           />
+          <div className="control-error">
+            { passwordsAreNotEqual && <p>Passwords must match</p> } 
+          </div>
         </div>
       </div>
 
@@ -63,7 +77,7 @@ export default function Signup() {
             type="text" 
             id="first-name" 
             name="first-name" 
-            required
+            required // built-in validation
           />
         </div>
 
@@ -73,7 +87,7 @@ export default function Signup() {
             type="text" 
             id="last-name" 
             name="last-name"
-            required 
+            required  // built-in validation
           />
         </div>
       </div>
@@ -106,7 +120,7 @@ export default function Signup() {
             type="checkbox"
             id="friend"
             name="acquisition"
-            value="friend"
+            value="friend" // built-in validation
           />
           <label htmlFor="friend">Referred by friend</label>
         </div>
@@ -123,7 +137,7 @@ export default function Signup() {
             type="checkbox" 
             id="terms-and-conditions" 
             name="terms" 
-            required
+            required // built-in validation
           />I
           agree to the terms and conditions
         </label>
