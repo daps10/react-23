@@ -24,8 +24,11 @@ export default function Login() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    console.log('User email :: ', enteredValues);
+    if(emailIsInvalid) {
+      return;
+    }
 
+    console.log('User email :: ', enteredValues);
     setEnteredValues({
       email: '',
       password: ''
@@ -37,7 +40,7 @@ export default function Login() {
       ...prevValues, 
       [identifire]: value
     }));
-
+    console.log(identifire);
     setDidEdit(prevEdit => ({
       ...prevEdit,
       [identifire]: false
