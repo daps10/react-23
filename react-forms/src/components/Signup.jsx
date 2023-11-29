@@ -12,7 +12,7 @@ export default function Signup() {
     console.log(data);
 
     // resetting values wth reset()
-    e.target.reset();
+    // e.target.reset();
   }
 
   return (
