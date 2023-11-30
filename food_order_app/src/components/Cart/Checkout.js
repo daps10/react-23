@@ -31,8 +31,8 @@ const Checkout = (props) => {
     const enteredNameIsValid = !isEmpty(enteredName);
     const enteredStreetIsValid = !isEmpty(enteredStreet);
     const enteredCityIsValid = !isEmpty(enteredCity);
-    const enteredPostalCodeIsValid = !isFiveChars(enteredPostalCode);
-
+    const enteredPostalCodeIsValid = isFiveChars(enteredPostalCode);
+    
     // set state for input validity
     setFormInputsValidity({
       name: enteredNameIsValid,
@@ -55,13 +55,17 @@ const Checkout = (props) => {
     } 
 
     // submit cart data
-
-
     // console.log('name :: ', enteredName);
     // console.log('street :: ', enteredStreet);
     // console.log('postalcode :: ', enteredPostalCode);
     // console.log('city :: ', enteredCity);
 
+    props.onSubmit({
+      name: enteredName,
+      street: enteredStreet,
+      city: enteredCity,
+      postalCode: enteredPostalCode
+    })
 
   };
 
@@ -109,7 +113,7 @@ const Checkout = (props) => {
           />
         { !formInputsValidity.postalCode && <p>Please enter a valid postal code ( 5 characters long )!</p> }
       </div>
-      <div className= { city }>
+      <div className= { cityControlClasses }>
         <label htmlFor='city'>City</label>
         <input 
           type='text' 
