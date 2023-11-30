@@ -6,14 +6,22 @@ import MealItem from './MealItem/MealItem';
 const AvailableMeals = () => {
   const [meals, setMeals]= useState([]);
   const [isLoading, setIsLoading]= useState(true);
-  // const []= useState();
+  const [httpError, setHttpError]= useState();
   
   // useEffect for fetch API
   useEffect(() => {
     
     const fetchMeals = async() => {
       // firebase URL
-      const response= await fetch('https://react-movies-app-6b7ea-default-rtdb.firebaseio.com/meals.json')
+      const response= await fetch(
+        'https://react-movies-app-6b7ea-default-rtdb.firebaseio.com/meals.json'
+      );
+
+      // check rsponse is ok or not
+      if(!response.ok){ 
+        throw new Error('Something went wrong');
+      }
+
       const responseData = await response.json();
       
       const loadedMeals= [];
@@ -32,7 +40,11 @@ const AvailableMeals = () => {
     }
 
     // load fetchmeals function
-    fetchMeals();
+    fetchMeals()
+      .catch(error => {
+        setIsLoading(false);
+        setHttpError(error.message);
+      });
   }, [])
 
   if(isLoading) {
@@ -40,6 +52,14 @@ const AvailableMeals = () => {
       <p>Loading... </p>
     </section>
   }
+
+  // check if error is truthy or not
+  if(httpError) {
+    return <section className={classes.MealsError}>
+      <p>{ httpError }</p>
+    </section>
+  }
+
   const mealsList = meals.map(meal => 
       (
         <MealItem 
