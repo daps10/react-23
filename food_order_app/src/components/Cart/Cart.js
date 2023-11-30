@@ -24,6 +24,17 @@ const Cart = (props) => {
     setIsCheckout(true);
   }
 
+  // submit order handler
+  const submitOrderHandler = (userData) => {
+    fetch('https://react-movies-app-6b7ea-default-rtdb.firebaseio.com/orders.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: userData,
+        orderedItems: cartCtx.items
+      })
+    });
+  }
+
   const cartItems = <ul className={classes['cart-items']}>
     {
       cartCtx.items.map(item => (
@@ -61,7 +72,10 @@ const Cart = (props) => {
       
       {/* checkout button */}
       { 
-        isCheckout && <Checkout onCancel={ props.onClose }/>
+        isCheckout && <Checkout 
+          onCancel= { props.onClose }
+          onSubmit= { submitOrderHandler }
+          />
       }
       
       {
