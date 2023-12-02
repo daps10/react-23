@@ -6,10 +6,14 @@ export default function Modal({ children, open, className='' }) {
 
   // with this hook we manage the dialog manually 
   useEffect(() => {
+    const modal= dialog.current;
     // it check open or not.
     if(open) {
-      dialog.current.showModal();
+      modal.showModal();
     }
+
+    // modal cleanup
+    return () => modal.close();
   }, [open]);
 
   // createportal mainly used to show case that content overly on div which has its own space.
