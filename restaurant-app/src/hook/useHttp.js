@@ -22,12 +22,16 @@ export default function useHttp(url, config, initialData) {
   const [isLoading, setIsLoading]= useState(false);
   const [error, setError]= useState();
 
+  function clearData() {
+    setData(initialData);
+  }
+
   // send Request to call and outside function
-  const sendRequest = useCallback(async function sendRequest() {
+  const sendRequest = useCallback(async function sendRequest(data) {
       setIsLoading(true);
       try {
         // called a function which outside resides
-        const resData= await sendHttpRequest(url, config);
+        const resData= await sendHttpRequest(url, {...config, body: data});
         setData(resData);
       } catch (error) {
         setError(error.message || 'Something went wrong!');
@@ -47,6 +51,7 @@ export default function useHttp(url, config, initialData) {
     data,
     isLoading,
     error,
-    sendRequest
+    sendRequest,
+    clearData
   }
 }
