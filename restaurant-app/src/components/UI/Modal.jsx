@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import {createPortal} from 'react-dom';
 
-export default function Modal({ children, open, className='' }) {
+export default function Modal({ children, open,onClose, className='' }) {
   const dialog= useRef();
 
   // with this hook we manage the dialog manually 
@@ -18,7 +18,9 @@ export default function Modal({ children, open, className='' }) {
 
   // createportal mainly used to show case that content overly on div which has its own space.
   return createPortal(
-    <dialog ref={dialog} className={`modal ${className}`}>{ children }</dialog>, 
+    <dialog ref={dialog} className={`modal ${className}`} onClose={ onClose }>
+      { children }
+    </dialog>, 
     document.getElementById('modal')
   );
 }

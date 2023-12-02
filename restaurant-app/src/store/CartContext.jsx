@@ -107,7 +107,6 @@ export function CartContextProvider({ children }) {
     addItem: addItemDispatchFun,
     removeItem: removeItemDispatchFun
   }
-  console.log(cartContext);
   
   return (
     // used cart context provider
