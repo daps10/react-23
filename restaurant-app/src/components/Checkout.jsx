@@ -23,14 +23,25 @@ export default function Checkout () {
   }
 
   // handle submit
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     // new Formdata to get form values
     const fd = new FormData(e.target);
     const customerData = Object.fromEntries(fd.entries());
 
-    console.log(customerData);
+    await fetch('http://localhost:3000/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order: {
+          items: cartCtx.items,
+          customer: customerData
+        }
+      })
+    });
   }
 
   return (
@@ -44,7 +55,7 @@ export default function Checkout () {
         <Input 
           label= "Full Name"
           type= "text"
-          id= 'full-name'
+          id= 'name'
         />
 
         <Input 
