@@ -30,11 +30,11 @@ function cartReducer(state, action) {
       updatedItems[existingItemCartIndex] = updatedItem;
     } else {
       updatedItems.push({
-        ...action.item, 
+        ...action.payload, 
         quantity: 1
       });
     }
-
+    
     // return states
     return {
       ...state,
@@ -107,6 +107,7 @@ export function CartContextProvider({ children }) {
     addItem: addItemDispatchFun,
     removeItem: removeItemDispatchFun
   }
+  console.log(cartContext);
   
   return (
     // used cart context provider
