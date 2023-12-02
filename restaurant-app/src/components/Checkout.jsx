@@ -11,13 +11,37 @@ export default function Checkout () {
   const cartCtx= useContext(CartContext);
   const userProgressCtx= useContext(UserProgressContext);
 
+  // total cart amount
   const cartTotal= cartCtx.items.reduce(
     (totalPrice, item) => totalPrice + ( item.quantity * item.price ),
     0
   );
 
+  // handle close on escape button
   function handleClose() {
     userProgressCtx.hideCheckout();
+  }
+
+  // handle submit
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    // new Formdata to get form values
+    const fd = new FormData(e.target);
+    const customerData = Object.fromEntries(fd.entries());
+
+    await fetch('http://localhost:3000/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order: {
+          items: cartCtx.items,
+          customer: customerData
+        }
+      })
+    });
   }
 
   return (
@@ -25,13 +49,13 @@ export default function Checkout () {
       open={userProgressCtx.progress === 'checkout'}
       onClose={ handleClose }
       >
-      <form>
+      <form onSubmit={ handleSubmit }>
         <h2>Checkout</h2>
         <p>Total Amount: { currencyFormatter.format(cartTotal) }</p>
         <Input 
           label= "Full Name"
           type= "text"
-          id= 'full-name'
+          id= 'name'
         />
 
         <Input 
