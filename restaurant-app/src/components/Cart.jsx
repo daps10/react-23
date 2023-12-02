@@ -18,8 +18,13 @@ export default function Cart() {
   );
 
   // hide cart 
-  function hideCloseCart() {
+  function handleCloseCart() {
     userProgressCtx.hideCart();
+  }
+
+  // handle goto checkout
+  function handleGoToCheckout() {
+    userProgressCtx.showCheckout();
   }
   
   return (
@@ -44,11 +49,11 @@ export default function Cart() {
       <p className='modal-actions'>
         <Button 
           textOnly
-          onClick={ hideCloseCart }
+          onClick={ handleCloseCart }
         > Close </Button>
         {
           cartCtx.items.length > 0 && (
-            <Button onClick={ hideCloseCart }> Go to Checkout </Button>
+            <Button onClick={ handleGoToCheckout }> Go to Checkout </Button>
           )
         }
       </p>
