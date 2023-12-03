@@ -1,6 +1,6 @@
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classes from './Counter.module.css';
-import { Component } from 'react';
+// import { Component } from 'react';
 
 const Counter = () => {
   // to used to get selected state from the store.

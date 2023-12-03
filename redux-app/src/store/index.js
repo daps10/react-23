@@ -1,10 +1,12 @@
-import {createStore, redux} from 'redux';
+import {createStore} from 'redux';
 
+// initial state
 const initialState= {
   counter: 0,
   showCounter: true
 }
 
+// counter reducer
 const counterReducer = (
   state= initialState, 
   action
@@ -38,6 +40,7 @@ const counterReducer = (
   return state;
 }
 
+// store where reducer put.
 const store = createStore(counterReducer);
 
 export default store;
