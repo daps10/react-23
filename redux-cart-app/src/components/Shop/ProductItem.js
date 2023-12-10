@@ -52,14 +52,12 @@ const ProductItem = (props) => {
 
 
     // with addItem
-    // dispatch(cartActions.addItemToCart({
-    //   id,
-    //   title,
-    //   price,
-    //   description
-    // }));
-  
-  
+    dispatch(cartActions.addItemToCart({
+      id,
+      title,
+      price,
+      description
+    }));
   }
 
   return (
