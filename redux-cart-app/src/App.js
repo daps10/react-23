@@ -16,7 +16,7 @@ function App() {
 
   // useEffect for fetched data
   useEffect(() => {
-    dispatch(fetchCartData);
+    dispatch(fetchCartData());
   }, [dispatch])
 
   // useEffect
@@ -27,8 +27,9 @@ function App() {
     }
 
     // called the thunk for asynchronous function
-    dispatch(sendCartData(cart));
-
+    if(cart.changed) {
+      dispatch(sendCartData(cart));
+    }
   }, [cart, dispatch]);
   
   return (

@@ -18,7 +18,10 @@ export const fetchCartData = () => {
 
     try {
       const cartData= await fetchedData();
-      dispatch(cartActions.replaceCart(cartData));
+      dispatch(cartActions.replaceCart({
+        items: cartData.items || [],
+        totalQuantity: cartData.totalQuantity 
+      }));
     } catch (error) {
       // dispatch success action
       dispatch(uiActions.showNotification({
@@ -45,7 +48,10 @@ export const sendCartData = (cart) => {
         'https://react-movies-app-6b7ea-default-rtdb.firebaseio.com/cart-reduce.json', 
         {
           method: 'PUT',
-          body: JSON.stringify(cart)
+          body: JSON.stringify({
+            items: cart.items,
+            totalQuantity: cart.totalQuantity
+          })
         }
       );
   
