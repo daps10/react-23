@@ -6,11 +6,18 @@ import {
 } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
+import Root from './pages/Root';
 
 // create browser router
 const router= createBrowserRouter([
-  { path: '/', element: <Home /> },
-  { path: '/products', element: <Products /> }
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/products', element: <Products /> }
+    ],
+  },
 ]);
 
 // alternate ways to display router
