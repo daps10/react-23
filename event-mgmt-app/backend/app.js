@@ -21,6 +21,6 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message });
 });
 
-app.listen(8090, () => {
-  console.log(`App running on 8090`);
+app.listen(8080, () => {
+  console.log(`Server runs on PORT: 8080`);
 });
