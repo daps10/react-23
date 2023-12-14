@@ -4,28 +4,36 @@ import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
 import NewEvent from './pages/NewEvent';
 import EditEvent from './pages/EditEvent';
+import Root from './pages/Root';
 
 const router= createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+      {
+        path: 'events',
+        element: <Events />
+      },
+      {
+        path: 'events/:eventId',
+        element: <EventDetail />
+      },
+      {
+        path: 'events/new',
+        element: <NewEvent />
+      },
+      {
+        path: 'events/:eventId/edit',
+        element: <EditEvent />
+      }
+    ]
   },
-  {
-    path: '/events',
-    element: <Events />
-  },
-  {
-    path: '/events/:eventId',
-    element: <EventDetail />
-  },
-  {
-    path: '/events/new',
-    element: <NewEvent />
-  },
-  {
-    path: '/events/:eventId/edit',
-    element: <EditEvent />
-  }
+  
 ])
 
 function App() {
