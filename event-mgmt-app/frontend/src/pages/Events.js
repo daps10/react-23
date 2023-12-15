@@ -21,7 +21,7 @@ function Events() {
 export default Events;
 
 export async function loader() {
-  const response = await fetch('http://localhost:8080/eventss');
+  const response = await fetch('http://localhost:8080/events');
       
   if (!response.ok) {
     // with sending message
