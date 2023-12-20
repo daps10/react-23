@@ -36,7 +36,6 @@ export async function action({ request }) {
   });
 
   // check if the status is 422 or 401 
-  console.log(response.status)
   if(response.status === 422 || response.status === 401) {
     return response;
   }
@@ -48,6 +47,14 @@ export async function action({ request }) {
     }, { status: 500 });
   }
 
+  // fetch response 
+  const resData= await response.json();
+  const token= resData.token;
+  
+  // store token inside localstorage
+  localStorage.setItem('token', token);
+
   // manage the token later
+  console.log(response);
   return redirect('/');
 }
