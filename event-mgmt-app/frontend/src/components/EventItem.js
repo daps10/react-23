@@ -1,7 +1,9 @@
-import { Link, useSubmit } from 'react-router-dom';
+import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom';
 import classes from './EventItem.module.css';
 
 function EventItem({ event }) {
+  const token= useRouteLoaderData('root');
+  
   // to use the submit function
   const submit= useSubmit();
 
@@ -24,10 +26,12 @@ function EventItem({ event }) {
       <h1>{event.title}</h1>
       <time>{event.date}</time>
       <p>{event.description}</p>
-      <menu className={classes.actions}>
-        <Link to='edit'>Edit</Link>
-        <button onClick={startDeleteHandler}>Delete</button>
-      </menu>
+      { token && ( 
+        <menu className={classes.actions}>
+          <Link to='edit'>Edit</Link>
+          <button onClick={startDeleteHandler}>Delete</button>
+        </menu>
+      )}
     </article>
   );
 }
