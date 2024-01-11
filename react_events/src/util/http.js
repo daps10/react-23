@@ -1,3 +1,4 @@
+// fetch an events
 export async function fetchEvents({ signal, searchTerm}) {
   // dynamic search URLs
   let url= 'http://localhost:3000/events';
@@ -17,4 +18,28 @@ export async function fetchEvents({ signal, searchTerm}) {
   const { events } = await response.json();
 
   return events;
+}
+
+// create new event
+export async function createNewEvent(eventData) {
+  const response= await fetch(`http://localhost:3000/events`, {
+    method: 'POST',
+    body: JSON.stringify(eventData),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+
+  // check response is ok or not
+  if(!response.ok) {
+    const error= new Error('An error occurred while creating the event');
+    error.code= response.status;
+    error.info= await response.json();
+    throw error;
+  }
+
+  // fetched response in json 
+  const { event } = await response.json();
+
+  return event;
 }
