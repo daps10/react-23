@@ -1,3 +1,7 @@
+import { QueryClient } from '@tanstack/react-query';
+
+export const queryClient= new QueryClient();
+
 // fetch an events
 export async function fetchEvents({ signal, searchTerm}) {
   // dynamic search URLs
