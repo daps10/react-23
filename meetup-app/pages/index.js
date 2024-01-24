@@ -34,4 +34,16 @@ export async function getStaticProps() {
   }; // always need to return object
 }
 
+// getserverside props
+// export async function getServerSideProps(context) {
+//   const req= context.req;
+//   const res= context.res;
+
+//   // fetch data from API
+
+//   return {
+//     props: DUMMY_MEETUPS
+//   }
+// } 
+
 export default Homepage;
